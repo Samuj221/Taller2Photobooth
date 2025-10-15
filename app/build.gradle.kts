@@ -1,4 +1,3 @@
-// app/build.gradle.kts
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -19,30 +18,45 @@ android {
 
     buildFeatures { compose = true }
 
-    // Con Kotlin 2.0 NO se usa composeOptions
-    // composeOptions { kotlinCompilerExtensionVersion = "..." }
+    // <<< AQUI unificamos Java a 1.8 >>>
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
     packaging { resources.excludes += "/META-INF/{AL2.0,LGPL2.1}" }
 }
 
+// <<< AQUI unificamos Kotlin a 1.8 y usamos JDK 17 >>>
+kotlin {
+    jvmToolchain(17)
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_1_8)
+    }
+}
+
 dependencies {
-    // Compose BOM
+    // Compose base
     implementation(platform("androidx.compose:compose-bom:2024.06.00"))
-    implementation("androidx.activity:activity-compose:1.9.0")
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.material:material-icons-extended")
     debugImplementation("androidx.compose.ui:ui-tooling")
 
-    // Accompanist Permissions
-    implementation("com.google.accompanist:accompanist-permissions:0.34.0")
+    // 👇 NECESARIAS para tus imports
+    implementation("androidx.activity:activity-compose:1.9.0")              // setContent()
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")  // viewModel()
 
-    // CameraX
+    // Resto de tu proyecto
+    implementation("com.google.accompanist:accompanist-permissions:0.34.0")
     implementation("androidx.camera:camera-core:1.3.4")
     implementation("androidx.camera:camera-camera2:1.3.4")
     implementation("androidx.camera:camera-lifecycle:1.3.4")
     implementation("androidx.camera:camera-view:1.3.4")
-
-    // Coil para mostrar imágenes
     implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation("com.google.android.material:material:1.12.0")
+
+    implementation("androidx.compose.material:material-icons-extended")
+
 }
+

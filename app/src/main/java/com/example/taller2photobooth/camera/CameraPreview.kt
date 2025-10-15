@@ -27,7 +27,7 @@ fun rememberCameraController(): LifecycleCameraController {
     val context = LocalContext.current
     val controller = remember {
         LifecycleCameraController(context).apply {
-            setEnabledUseCases(CameraController.IMAGE_CAPTURE or CameraController.PREVIEW)
+            setEnabledUseCases(CameraController.IMAGE_CAPTURE)
             cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
         }
     }
@@ -59,7 +59,9 @@ fun CameraPreview(
 fun toggleCamera(controller: LifecycleCameraController) {
     controller.cameraSelector =
         if (controller.cameraSelector == CameraSelector.DEFAULT_BACK_CAMERA)
-            CameraSelector.DEFAULT_FRONT_CAMERA else CameraSelector.DEFAULT_BACK_CAMERA
+            CameraSelector.DEFAULT_FRONT_CAMERA
+        else
+            CameraSelector.DEFAULT_BACK_CAMERA
 }
 
 fun takePhoto(
@@ -89,7 +91,6 @@ fun takePhoto(
 }
 
 private fun createImageFile(context: Context): File {
-    // App-specific external storage: /Android/data/<package>/files/Pictures
     val dir = context.getExternalFilesDir(android.os.Environment.DIRECTORY_PICTURES)
         ?: context.filesDir
     val name = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())

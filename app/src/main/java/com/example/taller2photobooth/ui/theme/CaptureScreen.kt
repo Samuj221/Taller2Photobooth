@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.taller2photobooth.PhotoboothViewModel
@@ -39,7 +40,7 @@ fun CaptureScreen(vm: PhotoboothViewModel) {
             .fillMaxSize()
             .padding(12.dp)
     ) {
-        // Vista de cámara: ancho completo y 30% alto
+        // Vista de cámara: ancho completo y 30% del alto
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -54,22 +55,33 @@ fun CaptureScreen(vm: PhotoboothViewModel) {
                     .padding(12.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                FilledTonalIconButton(onClick = { toggleCamera(controller) }, modifier = Modifier.size(48.dp)) {
-                    Icon(Icons.Default.Cameraswitch, contentDescription = "Cambiar")
+                FilledTonalIconButton(
+                    onClick = { toggleCamera(controller) },
+                    modifier = Modifier.size(48.dp)
+                ) {
+                    Icon(Icons.Default.Cameraswitch, contentDescription = "Cambiar cámara")
                 }
                 Spacer(Modifier.weight(1f))
                 FilledIconButton(
-                    onClick = { takePhoto(context, controller) { uri -> vm.addPhoto(uri) } },
+                    onClick = {
+                        takePhoto(
+                            context = context,
+                            controller = controller,
+                            onSuccess = { uri -> vm.addPhoto(uri) }
+                        )
+                    },
                     modifier = Modifier.size(56.dp)
                 ) {
-                    Icon(Icons.Default.PhotoCamera, contentDescription = "Tomar foto")
+                    Icon(Icons.Filled.PhotoCamera, contentDescription = "Tomar foto")
                 }
+
+
             }
         }
 
         Spacer(Modifier.height(16.dp))
 
-        // Galería de la sesión (vacía al iniciar)
+        // Galería de la sesión (vacía al iniciar la app)
         if (vm.sessionPhotos.isEmpty()) {
             Column(
                 modifier = Modifier.fillMaxSize(),
