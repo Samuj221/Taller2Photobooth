@@ -1,47 +1,33 @@
 package com.example.taller2photobooth
 
+import android.Manifest
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.taller2photobooth.ui.theme.Taller2PhotoboothTheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.taller2photobooth.ui.CaptureScreen
+import com.example.taller2photobooth.ui.PermissionScreen
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberPermissionState
 
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalPermissionsApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
         setContent {
-            Taller2PhotoboothTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+            Surface(color = MaterialTheme.colorScheme.background) {
+                val vm: PhotoboothViewModel = viewModel()
+                val cameraPermission = rememberPermissionState(Manifest.permission.CAMERA)
+
+                if (cameraPermission.status.isGranted) {
+                    CaptureScreen(vm = vm)
+                } else {
+                    PermissionScreen(onRequest = { cameraPermission.launchPermissionRequest() })
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Taller2PhotoboothTheme {
-        Greeting("Android")
     }
 }

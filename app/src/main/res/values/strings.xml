@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Taller2Photobooth</string>
+    <string name="unlock_camera">Desbloquear la Cámara!</string>
+    <string name="need_camera_perm_title">Hola!, necesitamos el permiso de Cámara para funcionar ✨</string>
+    <string name="need_camera_perm_desc">Acepta los permisos para poder empezar 🎉</string>
+    <string name="no_photos">No tienes fotos, toma una!</string>
 </resources>
