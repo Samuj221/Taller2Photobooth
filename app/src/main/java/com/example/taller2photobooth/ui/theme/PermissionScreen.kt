@@ -88,7 +88,6 @@ fun PermissionScreen(onRequest: () -> Unit) {
                     textAlign = TextAlign.Center
                 )
 
-                // (línea debajo del título eliminada)
 
                 Spacer(Modifier.height(12.dp))
 
