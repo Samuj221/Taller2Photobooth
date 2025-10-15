@@ -39,6 +39,7 @@ fun CaptureScreen(vm: PhotoboothViewModel) {
             .fillMaxSize()
             .padding(12.dp)
     ) {
+        // Vista de cámara: ancho completo y 30% alto
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -68,6 +69,7 @@ fun CaptureScreen(vm: PhotoboothViewModel) {
 
         Spacer(Modifier.height(16.dp))
 
+        // Galería de la sesión (vacía al iniciar)
         if (vm.sessionPhotos.isEmpty()) {
             Column(
                 modifier = Modifier.fillMaxSize(),

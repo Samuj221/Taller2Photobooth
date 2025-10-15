@@ -40,7 +40,10 @@ fun rememberCameraController(): LifecycleCameraController {
 }
 
 @Composable
-fun CameraPreview(controller: LifecycleCameraController, modifier: Modifier = Modifier) {
+fun CameraPreview(
+    controller: LifecycleCameraController,
+    modifier: Modifier = Modifier
+) {
     AndroidView(
         modifier = modifier,
         factory = { ctx ->
@@ -86,6 +89,7 @@ fun takePhoto(
 }
 
 private fun createImageFile(context: Context): File {
+    // App-specific external storage: /Android/data/<package>/files/Pictures
     val dir = context.getExternalFilesDir(android.os.Environment.DIRECTORY_PICTURES)
         ?: context.filesDir
     val name = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())

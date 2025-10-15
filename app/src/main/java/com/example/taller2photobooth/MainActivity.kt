@@ -18,16 +18,19 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            Surface(color = MaterialTheme.colorScheme.background) {
-                val vm: PhotoboothViewModel = viewModel()
-                val cameraPermission = rememberPermissionState(Manifest.permission.CAMERA)
+            com.example.taller2photobooth.ui.theme.Taller2PhotoboothTheme {
+                Surface(color = MaterialTheme.colorScheme.background) {
+                    val vm: PhotoboothViewModel = viewModel()
+                    val cameraPermission = rememberPermissionState(Manifest.permission.CAMERA)
 
-                if (cameraPermission.status.isGranted) {
-                    CaptureScreen(vm = vm)
-                } else {
-                    PermissionScreen(onRequest = { cameraPermission.launchPermissionRequest() })
+                    if (cameraPermission.status.isGranted) {
+                        CaptureScreen(vm = vm)
+                    } else {
+                        PermissionScreen(onRequest = { cameraPermission.launchPermissionRequest() })
+                    }
                 }
             }
         }
+
     }
 }
